@@ -1,13 +1,25 @@
-import React from 'react';
+import React, { createContext, useMemo } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
+import { io } from 'socket.io-client';
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+export const context = createContext();
+
+const Bin =()=>{
+  const socket = useMemo(()=>io("http://localhost:5000"),
+  []);// here useMemo hook returning the io where as useEffect can not return anything
+ return(
+ <context.Provider value={{socket}}>
+  <App/>
+ </context.Provider>)
+}
+
 root.render(
   <React.StrictMode>
-    <App />
+    <Bin />
   </React.StrictMode>
 );
 
